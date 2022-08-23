@@ -93,7 +93,10 @@ class ScienceData(sio.IO):
 
         self.data = self.hdul['DATA'].data
         self.T0_utc = self.hdul['PRIMARY'].header['DATE_BEG']
-        self.counts = self.data['counts']
+        try:
+            self.counts = self.data['counts']
+        except KeyError: #background file
+            self.counts = self.data['background']
 
         self.light_time_del = self.hdul['PRIMARY'].header['EAR_TDEL']
         self.light_time_corrected = light_time_correction
